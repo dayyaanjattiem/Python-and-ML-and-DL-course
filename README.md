@@ -11,6 +11,12 @@ The project will be composed of three components.
     - Forward PE
     - EPS
 
+
+
 Technical Analysis
+
+The first component of the technical analysis will be to create SMAs on the close price and utilize various SMAs to forecast future prices. 
+
+The second step would be to analyze the gradient by taking the first derivative of the SMA to analyze the change in SMAs values and find out what information this tells us 
 
 
