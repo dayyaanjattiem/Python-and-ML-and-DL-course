@@ -20,3 +20,16 @@ The first component of the technical analysis will be to create SMAs on the clos
 The second step would be to analyze the gradient by taking the first derivative of the SMA to analyze the change in SMAs values and find out what information this tells us 
 
 
+Machine Learning and Statistical Analysis
+
+Test 1:
+- Create a Linear Regression Model that utelises the volume to determine the f(volume)= stock prices.
+- It is probable that the model will not be able to determine the stock prices if the volume changes since the market price of a stock is not only dependent on the volume.
+- That filters us down to test 1.1
+
+  Test 1.1:
+  - Test the correlation between volume and stock prices
+  - Create a linear regression model that determines the stock prices utelising the first derivatives of stock prices and volume.
+  - Test the the correlation between the gradients of the volume and stock prices
+ 
+    
