@@ -1,0 +1,38 @@
+#Shift the data forward
+top40["Tomorrow"] = top40["Close"].shift(-1)
+top40["Next Week"] = top40["Close"].shift(-5)
+top40["Next Month"] = top40["Close"].shift(-25)
+
+#Create a moving average
+top40['SMA_20'] = top40['Close'].rolling(window=20).mean()
+top40['SMA_50'] = top40['Close'].rolling(window=50).mean()
+top40['SMA_200'] = top40['Close'].rolling(window=200).mean()
+
+#Create a copy of the data set with a specified period
+top40FirstDec = top40.loc["2000-01-01":"2010-12-30"].copy()
+
+
+#Create columns which we will use for testing, and assign the value 0
+top40FirstDec["SMA 20 Pred Tomorrow"] = 0
+top40FirstDec["SMA 50 Pred Next Month"] = 0
+top40FirstDec["SMA 50 Pred Half Year"] = 0
+
+
+# Iterate through the rows of the DataFrame using iterrows()
+for index, row in top40FirstDec.iterrows():
+    # Check the conditions
+    if row["SMA_20"] < row["Next Week"]:
+        # Change the value in the 'pred_SMA200' column for the current row
+        top40FirstDec.loc[index, "SMA 20 Pred Next Week"] = 1
+
+
+
+#Calculate the success rate of the above change
+success_count = top40FirstDec["SMA 20 Pred Next Week"].sum()
+total_count = len(top40FirstDec["SMA 20 Pred Next Week"])
+success_rate = success_count / total_count if total_count > 0 else 0  # Avoid division by zero
+
+print(f"Success rate for SMA 20 Pred Next Week: {success_rate:.2%}")
+
+
+
