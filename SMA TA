@@ -1,0 +1,6 @@
+import yfinance as yf
+import pandas as pd
+import numpy as np
+
+#This is for data visualisation
+import matplotlib.pyplot as plt
