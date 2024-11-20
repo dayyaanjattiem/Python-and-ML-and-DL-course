@@ -12,14 +12,6 @@ The project will be composed of three components.
     - EPS
 
 Fundamental Elements:
-#Import the necessary Libraries
-import yfinance as yf
-import pandas as pd
-import numpy as np
-
-#This is for data visualisation
-import matplotlib.pyplot as plt
-
 
 Technical Analysis
 The first component of the technical analysis will be to create SMAs on the close price and utilize various SMAs to forecast future prices. 
