@@ -11,12 +11,18 @@ The project will be composed of three components.
     - Forward PE
     - EPS
 
+Fundamental Elements:
+#Import the necessary Libraries
+import yfinance as yf
+import pandas as pd
+import numpy as np
+
+#This is for data visualisation
+import matplotlib.pyplot as plt
 
 
 Technical Analysis
-
 The first component of the technical analysis will be to create SMAs on the close price and utilize various SMAs to forecast future prices. 
-
 The second step would be to analyze the gradient by taking the first derivative of the SMA to analyze the change in SMAs values and find out what information this tells us 
 
 
