@@ -1,0 +1,65 @@
+https://colab.research.google.com/drive/1xwNiawxGiag04F5rDy_CZZZjbnnm63WX
+#The necessary CSV for this project is bike.csv data 
+
+
+
+# Import necessary libraries
+import tensorflow as tf
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Mount Google Drive
+from google.colab import drive
+drive.mount('/content/drive')
+
+# Load the dataset
+bike = pd.read_csv('/content/drive/My Drive/Colab Notebooks/bike_sharing_daily.csv')
+
+# Data cleaning and preprocessing
+bike = bike.drop(labels = ['instant'], axis = 1)
+bike = bike.drop(labels = ['casual', 'registered'], axis = 1)
+bike.dteday = pd.to_datetime(bike.dteday, format = '%m/%d/%Y')
+bike.index = pd.DatetimeIndex(bike.dteday)
+bike = bike.drop(labels = ['dteday'], axis = 1)
+
+# Data visualization
+bike['cnt'].asfreq('W').plot(linewidth = 3)
+plt.title('Bike Usage Per week')
+plt.xlabel('Week')
+plt.ylabel('Bike Rental')
+
+# ... (more visualization code) ...
+
+# Feature engineering and scaling
+X_cat = bike[['season', 'yr', 'mnth', 'holiday', 'weekday', 'workingday', 'weathersit']]
+from sklearn.preprocessing import OneHotEncoder
+onehotencoder = OneHotEncoder()
+X_cat = onehotencoder.fit_transform(X_cat).toarray()
+X_cat = pd.DataFrame(X_cat)
+X_numerical = bike[['temp', 'hum', 'windspeed', 'cnt']]
+X_numerical = X_numerical.reset_index()
+X_all = pd.concat([X_cat, X_numerical], axis = 1)
+X_all = X_all.drop('dteday', axis = 1)
+X = X_all.iloc[:, :-1].values
+y = X_all.iloc[:, -1:].values
+from sklearn.preprocessing import MinMaxScaler
+scaler = MinMaxScaler()
+y = scaler.fit_transform(y)
+
+# Split data into training and testing sets
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2)
+
+# Build and train the model
+model = tf.keras.models.Sequential()
+model.add(tf.keras.layers.Dense(units=100, activation='relu', input_shape=(35, )))
+model.add(tf.keras.layers.Dense(units=100, activation='relu'))
+model.add(tf.keras.layers.Dense(units=100, activation='relu'))
+model.add(tf.keras.layers.Dense(units=1, activation='linear'))
+model.compile(optimizer='Adam', loss='mean_squared_error')
+epochs_hist = model.fit(X_train, y_train, epochs = 20, batch_size = 50, validation_split = 0.2)
+
+# Evaluate the model
+# ... (model evaluation code) ...
