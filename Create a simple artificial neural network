@@ -1,0 +1,39 @@
+
+import tensorflow as tf
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+from google.colab import drive
+drive.mount('/content/drive')
+Sales_df = pd.read_csv('/content/drive/My Drive/Colab Notebooks/SalesData.csv')
+Sales_df.reset_index(drop=True, inplace=True)
+
+sns.scatterplot(x=Sales_df['Temperature'], y=Sales_df['Revenue'])
+
+x_train = Sales_df['Temperature']
+y_train = Sales_df['Revenue']
+
+model = tf.keras.Sequential()
+model.add(tf.keras.layers.Dense(units=1, input_shape=[1]))
+
+model.summary()
+
+model.compile(optimizer=tf.keras.optimizers.Adam(0.5), loss='mean_squared_error')
+
+epochs_hist = model.fit(x_train, y_train, epochs = 100)
+
+epochs_hist.history.keys()
+
+plt.plot(epochs_hist.history['loss'])
+plt.title('Model Loss Progress During Training')
+plt.xlabel('Epoch')
+plt.ylabel('Training Loss')
+plt.legend(['Training Loss'])
+
+model.get_weights()
+
+Temp_C = 40
+Sales = model.predict(np.array([Temp_C]))  # Convert Temp_C to a NumPy array
+print('Temperature in degF Using Trained ANN =', Sales)
